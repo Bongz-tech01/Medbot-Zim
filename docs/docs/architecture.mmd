@@ -1,0 +1,130 @@
+flowchart TB
+
+    %% USERS AND ACCESS CHANNELS
+    subgraph USERS["1. USERS AND ACCESS CHANNELS"]
+        PATIENT["Patients and Community Members"]
+        CHW["Community Health Workers"]
+        PROFESSIONAL["Verified Healthcare Professionals"]
+
+        WHATSAPP["WhatsApp Channel"]
+        ANDROID["Android Mobile Application"]
+        PORTAL["Healthcare Professional Portal"]
+
+        PATIENT --> WHATSAPP
+        PATIENT --> ANDROID
+        CHW --> ANDROID
+        PROFESSIONAL --> PORTAL
+    end
+
+    %% ONLINE PLATFORM
+    subgraph ONLINE["2. ONLINE MEDBOT PLATFORM"]
+        API["Secure API Gateway"]
+        AUTH["Identity, Authentication and Consent"]
+        AI["AI Assistant and Orchestration"]
+        POLICY["Clinical Safety and Policy Checks"]
+        TRIAGE["Red-Flag Detection and Referral"]
+        
+        WHATSAPP --> API
+        ANDROID --> API
+        PORTAL --> API
+
+        API --> AUTH
+        AUTH --> AI
+        AI --> POLICY
+        POLICY --> TRIAGE
+    end
+
+    %% HEALTH KNOWLEDGE
+    subgraph KNOWLEDGE["3. APPROVED HEALTH KNOWLEDGE"]
+        SOURCES["Zimbabwe Ministry of Health, WHO and Approved Sources"]
+        REVIEW["Zimbabwean Clinical Review"]
+        REPOSITORY["Version-Controlled Health Knowledge Repository"]
+        PACKAGE["Signed and Approved Offline Content Packages"]
+
+        SOURCES --> REVIEW
+        REVIEW --> REPOSITORY
+        REPOSITORY --> PACKAGE
+    end
+
+    REPOSITORY --> AI
+    PACKAGE --> ANDROID
+
+    %% OFFLINE APPLICATION
+    subgraph OFFLINE["4. OFFLINE ANDROID PLATFORM"]
+        LOCALDB["Encrypted Local Database"]
+        LIBRARY["Offline Health Information Library"]
+        RECORDS["My Health Record"]
+        OFFLINEAI["Offline Search and Approved AI Assistance"]
+        QUEUE["Secure Synchronisation Queue"]
+        UPDATE["Offline Content Update Manager"]
+
+        ANDROID --> LOCALDB
+        LOCALDB --> LIBRARY
+        LOCALDB --> RECORDS
+        LIBRARY --> OFFLINEAI
+        RECORDS --> QUEUE
+        UPDATE --> LIBRARY
+    end
+
+    %% COMMUNITY UPDATE NETWORK
+    subgraph COMMUNITY["5. COMMUNITY UPDATE NETWORK"]
+        UPDATEPOINT["Medbot Community Update Point"]
+        ROUTER["Secure Local Wi-Fi Router"]
+        CHWDEVICE["Authorised CHW or Update Device"]
+
+        CHWDEVICE --> UPDATEPOINT
+        UPDATEPOINT --> ROUTER
+        ROUTER --> UPDATE
+    end
+
+    %% PATIENT RECORD SERVICES
+    subgraph RECORDSYSTEM["6. SECURE PATIENT RECORD SERVICES"]
+        SYNC["Authenticated and Encrypted Sync Service"]
+        DATABASE["Secure Patient Records Database"]
+        AUDIT["Access Logs and Audit Trail"]
+        DASHBOARD["Authorised Clinical Dashboard"]
+
+        QUEUE --> SYNC
+        SYNC --> DATABASE
+        DATABASE --> DASHBOARD
+        SYNC --> AUDIT
+    end
+
+    %% HUMAN OVERSIGHT
+    subgraph OVERSIGHT["7. HUMAN OVERSIGHT AND REFERRAL"]
+        CLINICIAN["Qualified Healthcare Professional"]
+        REFERRAL["Verified Clinic and Emergency Referral Pathways"]
+        REVIEWCASE["Clinical Review of Flagged Cases"]
+
+        TRIAGE --> REVIEWCASE
+        REVIEWCASE --> CLINICIAN
+        CLINICIAN --> REFERRAL
+        DASHBOARD --> CLINICIAN
+    end
+
+    %% SECURITY
+    subgraph SECURITY["8. SECURITY AND GOVERNANCE"]
+        ENCRYPTION["Encryption and Secure Storage"]
+        ACCESS["Role-Based Access Control"]
+        CONSENT["Patient Consent and Privacy Controls"]
+        SAFETY["Clinical Governance and Safety Monitoring"]
+    end
+
+    AUTH --> ACCESS
+    AUTH --> CONSENT
+    DATABASE --> ENCRYPTION
+    AI --> SAFETY
+    POLICY --> SAFETY
+
+    %% STYLING
+    classDef users fill:#DCEBFF,stroke:#2463A6,color:#102A43
+    classDef platform fill:#DDF5E5,stroke:#27834A,color:#123B25
+    classDef knowledge fill:#FFF0CC,stroke:#B7791F,color:#553500
+    classDef offline fill:#EDE3FF,stroke:#7041A6,color:#32175A
+    classDef security fill:#FFE0E0,stroke:#B83232,color:#5A1515
+
+    class PATIENT,CHW,PROFESSIONAL,WHATSAPP,ANDROID,PORTAL users
+    class API,AUTH,AI,POLICY,TRIAGE platform
+    class SOURCES,REVIEW,REPOSITORY,PACKAGE knowledge
+    class LOCALDB,LIBRARY,RECORDS,OFFLINEAI,QUEUE,UPDATE,UPDATEPOINT,ROUTER,CHWDEVICE offline
+    class ENCRYPTION,ACCESS,CONSENT,SAFETY security
